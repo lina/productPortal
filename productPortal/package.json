@@ -1,0 +1,29 @@
+{
+  "name": "productPortal",
+  "version": "0.1.5",
+  "description": "Viewing portal for product quality testing",
+  "main": "app.js",
+  "scripts": {
+    "start": "node server.js",
+    "postinstall": "bash ./post_install.sh"
+  },
+  "dependencies": {
+    "angular-bootstrap-datetimepicker": "^0.3.15",
+    "bluebird": "^2.10.2",
+    "body-parser": "^1.13.3",
+    "bower": "^1.5.3",
+    "cors": "^2.7.1",
+    "express": "4.13.3",
+    "pg": "^4.4.3"
+  },
+  "engines": {
+    "node": "0.12.7",
+    "npm": "2.1.x"
+  },
+  "keywords": [
+    "node",
+    "heroku",
+    "express"
+  ],
+  "license": "proprietary"
+}

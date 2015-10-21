@@ -1,0 +1,32 @@
+{
+  "name": "productPortal",
+  "version": "1.0.0",
+  "homepage": "https://github.com/linalu1",
+  "authors": [
+    "Lina Lu <linalu001@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "client/lib/",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-route": "~1.4.3",
+    "angular": "~1.4.3",
+    "angular-ui-router": "~0.2.15",
+    "angular-animate": "~1.4.3",
+    "underscore": "~1.8.3",
+    "angular-sanitize": "~1.4.3",
+    "jquery": "~2.1.4",
+    "angular-material": "~0.11.1",
+    "ngstorage": "~0.3.9",
+    "angular-csv-import-tmp": "angular-csv-import#~0.0.26",
+    "angular-smart-table": "~2.1.4",
+    "bootstrap": "~3.3.5",
+    "angular-bootstrap-datetimepicker": "~0.3.15"
+  }
+}

@@ -1,0 +1,116 @@
+<div ng-controller="productsCtrl" ng-app="productPortalApp.products">
+  <div class='products_page_container'>
+    <!-- <input type="file" ng-model="csv.file"></input> -->
+    <!-- <div> -->
+      <!-- <p>Add Test:</p> -->
+      <!-- <span class='products_page_addTest_labels'>Test Name</span><input> -->
+      <!-- <span class='products_page_addTest_labels'>Description</span><input> -->
+      <!-- <md-button class='md-raised' ng-click="addTest()">Add Test</md-button> -->
+
+    <!-- </div> -->
+
+    <div class="products_page_csv_submit">
+      <ng-csv-import content="csv.content"
+        header="csv.header" 
+        separator="csv.separator"
+        result="csv.result"></ng-csv-import>
+      <md-button class='md-raised' ng-click="uploadCsvFile()">Submit</md-button>  
+    </div>
+
+
+    <md-button class='md-raised' ng-click="showProductTests()">Show Product Tests</md-button>  
+
+    <table class="table table-bordered table-hover products_page_table" id="products_page_table">
+      <thead>
+        <tr>
+          <td>Product Name</td>
+          <td>Product Description</td>
+          <td>State</td>
+        </tr>
+      </thead>
+      <tbody class="products_page_table_product_row" ng-repeat="product in csvContentsRefactored">
+        <tr class="active">
+          <td>{{product.name}}</td>
+          <td>{{product.manufacturer}}</td>
+          <td><span ng-show="product.state">Verified</span><span ng-hide="product.state">Unverified</span></td>
+        </tr>
+        <tr>
+          <td colspan="4">
+            <table class="products_page_table_product_tests table table-bordered table-hover table-condensed">
+              <thead>
+                <tr>
+                  <td>Test Name</td>
+                  <td>Test Description</td>
+                  <td>Datetime</td>
+                  <td>Status</td>
+                  <td>Comment</td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="product_test in product.tests">
+                  <td>{{productQualityTests[product_test.test_id].name}}</td>
+                  <td>{{productQualityTests[product_test.test_id].description}}</td>
+                  <td>
+                    <div class="dropdown">
+                      <a class="dropdown-toggle" id="dropdown2" role="button" data-toggle="dropdown" data-target="#" href="#">
+                        <div class="input-group"><input type="text" class="form-control" data-ng-model="product_test.datetime" id="products_page_table_test_datetime" ng-change="updateDatabase(product)"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                        </div>
+                      </a>
+                      <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                        <datetimepicker data-ng-model="product_test.datetime" data-datetimepicker-config="{ dropdownSelector: '#dropdown2' }" ng-change="updateDatabase(product)"/>
+                      </ul>
+                    </div>
+                  </td>
+                  <td>
+                    <select ng-model="product_test.status" ng-change="updateDatabase(product)">
+                      <option ng-selected="product_test.status === 'pending'">pending</option>
+                      <option ng-selected="product_test.status === 'pass'" ng-model="product_test.status">pass</option>
+                      <option ng-selected="product_test.status === 'fail'" ng-model="product_test.status">fail</option>
+                    </select>
+                  </td>
+                  <td>
+                    <input type="text"
+                           ng-model="product_test.comment"
+                           ng-change="updateDatabase(product)"
+                           [name="string"]
+                           [required="string"]
+                           [ng-required="string"]
+                           [ng-minlength="number"]
+                           [ng-maxlength="number"]
+                           [pattern="string"]
+                           [ng-pattern="string"]
+                           [ng-change="string"]
+                           [ng-trim="boolean"]>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </TABLE>
+    <!-- <md-button class='md-raised' ng-click="saveToDatabase()">Save</md-button>   -->
+
+
+
+<!--     </table>
+    <div class='todolist_title_wrapper'>
+      <div class="todolist_title_wrapper_inner">
+      Notely
+      </div>
+      <md-button class="md-raised todolist_show_tasks_button" ng-click="toggleItemView()">
+        {{toggleItemViewText}}
+      </md-button>
+    </div>
+    <div class="todolist_items_container">
+      <div class='todolist_tasks_wrapper' ng-repeat="todo in toDoTasks track by $index" ng-style="todo.ifShowTask">
+        <md-checkbox class="toolist_checkbox_click" ng-model="todo.ifChecked" aria-label="placeholder" md-no-ink ng-click="completedTask($index)">
+        </md-checkbox> 
+        <textarea rows='1' msd-elastic placeholder='Add your note'class='todolist_textarea_field' ng-model="todo.text" >
+        </textarea>
+      </div>
+    </div> -->
+
+    
+  </div>
+</div>
