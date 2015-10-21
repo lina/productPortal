@@ -30,9 +30,6 @@ module.exports = {
             }
             var product_test = data.rows; //error handler if there is nothing
             for (var k = 0 ; k < product_test.length; k++) {
-              // console.log('---------> old product_test[k].datetime', product_test[k].datetime);
-              // product_test[k].datetime = new Date(product_test[k].datetime);
-              // console.log('---------> new product_test[k].datetime', product_test[k].datetime);
               var currProductId = product_test[k].product_id;
               results.csvContentsRefactored[currProductId].tests = results.csvContentsRefactored[currProductId].tests || [];
               results.csvContentsRefactored[currProductId].tests.push(product_test[k]);
@@ -44,44 +41,29 @@ module.exports = {
           });
           query.on('end', function() {
             done();
-            console.log('---->*results', results);
             return res.json(results);
           }); 
         });
       })
   },
   saveToDatabase: function(req, res, next) {
-    console.log('-------------------> saveToDatabase executed');
     if(!req.body) {
       return res.status(400).json({error:"Bad Request"});
     } else {
       var productId = req.body.productId;
       var updatedProduct = req.body.csvContentsRefactored[productId];
-      console.log('-------->productId:', productId);
-      console.log('-------->updatedProduct:', updatedProduct);
       pg.connect(config, function(err, client, done) {
         if(err) {
           done();
           console.log(err);
           return res.status(500).json({success: false, data: err});
         }
-        console.log('UPDATE products.product SET state='+updatedProduct.state+' WHERE ID='+productId)
         var query = client.query('UPDATE products.product SET state='+updatedProduct.state+' WHERE ID='+productId);
         for (var j = 0 ; j < updatedProduct.tests.length; j++) {
-          console.log("UPDATE products.product_test SET datetime='"+updatedProduct.tests[j].datetime +"', status='"+updatedProduct.tests[j].status+"', comment='"+updatedProduct.tests[j].comment+"' WHERE ID="+updatedProduct.tests[j].id);
           var query = client.query("UPDATE products.product_test SET datetime='"+updatedProduct.tests[j].datetime +"', status='"+updatedProduct.tests[j].status+"', comment='"+updatedProduct.tests[j].comment+"' WHERE ID="+updatedProduct.tests[j].id);
-          //-------------------
-          // console.log('UPDATE products.product_test SET datetime='+updatedProduct.tests[j].datetime+', status='+JSON.stringify(updatedProduct.tests[j].status)+', comment='+JSON.stringify(updatedProduct.tests[j].comment)+' WHERE ID='+updatedProduct.tests[j].id);
-          // var query = client.query('UPDATE products.product_test SET datetime='+updatedProduct.tests[j].datetime+', status='+JSON.stringify(updatedProduct.tests[j].status)+', comment='+JSON.stringify(updatedProduct.tests[j].comment)+' WHERE ID='+updatedProduct.tests[j].id);
-          //-------------------
-          // console.log('UPDATE products.product_test SET comment='+JSON.stringify(updatedProduct.tests[j].comment)+' WHERE ID='+updatedProduct.tests[j].id);
-          // var query = client.query('UPDATE products.product_test SET comment='+JSON.stringify(updatedProduct.tests[j].comment)+' WHERE ID='+updatedProduct.tests[j].id);
-
         }
-        //maybe end here
         query.on('end', function() {
           done();
-          // console.log('---->results', results);
           return res.status(200).json({success:true});
         });
       })
@@ -116,23 +98,15 @@ module.exports = {
             }
             results.csvContentsRefactored.push(tempArr);
             var query = client.query("INSERT INTO products.product(name, manufacturer, state) values($1, $2, $3) returning id", [tempArr[0], tempArr[1], false]);
-            
             query.on('row', function(row) {
-              console.log('--------------->*********', row);
-
               for (var k = 1 ; k <= results.tests.length; k++) {
                 var query = client.query("INSERT INTO products.product_test(datetime, product_id, test_id) values($1, $2, $3)", [new Date().toISOString(), row.id, k]);
               }
             })
-
-            // for (var k = 1 ; k <= results.tests.length; k++) {
-            //   var query = client.query("INSERT INTO products.product_test(datetime, product_id, test_id) values($1, $2, $3)", [new Date().toISOString(), i, k]);
-            // }
           }
         })
         query.on('end', function() {
           done();
-          console.log('---->results', results);
           return res.json(results);
         })
       })
