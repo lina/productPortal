@@ -15,7 +15,7 @@ CREATE TABLE products.product_test (
   ID  SERIAL PRIMARY KEY,
   datetime varchar(400),
   status varchar(20) DEFAULT 'pending',
-  comment varchar(1000),
+  comment varchar(1000) DEFAULT '',
   product_id integer NOT NULL,
   test_id integer NOT NULL
 );

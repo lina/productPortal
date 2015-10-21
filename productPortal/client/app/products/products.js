@@ -9,7 +9,8 @@ angular.module('productPortalApp.products', [])
     console.log('$scope.csvContentsRefactored', $scope.csvContentsRefactored);
     // if(product && product_test) {
     for (var i = 0; i < product.tests.length; i++) {
-      if(product.tests[i].status === 'pending') {
+
+      if(product.tests[i].status === 'pending' || product.tests[i].status === 'fail') {
         $scope.csvContentsRefactored[product.id].state = false;
         break;
       }
@@ -46,10 +47,19 @@ angular.module('productPortalApp.products', [])
     .then(function(resp) {
       console.log('Successfully received response');
       console.log('retrieveProductsData --->resp.data', resp.data);
+
+      console.log('retrieveProductsData BEFORE --->resp.data.csvContentsRefactored', resp.data.csvContentsRefactored);
+
       $scope.csvContentsRefactored = resp.data.csvContentsRefactored;
+      for (var key in $scope.csvContentsRefactored) {
+        for (var i = 0 ; i < $scope.csvContentsRefactored[key].tests.length; i++) {
+          $scope.csvContentsRefactored[key].tests[i].datetime = new Date($scope.csvContentsRefactored[key].tests[i].datetime);
+          $scope.csvContentsRefactored[key].tests[i].idString = $scope.csvContentsRefactored[key].tests[i].id.toString();
+        }
+      }
       $scope.productQualityTests = resp.data.tests;
       // $scope.productQualityTestData = resp.data.productQualityTestData;
-      console.log('retrieveProductsData --->resp.data.csvContentsRefactored', resp.data.csvContentsRefactored);
+      console.log('retrieveProductsData AFTER --->resp.data.csvContentsRefactored', resp.data.csvContentsRefactored);
       console.log('retrieveProductsData --->resp.data.tests', resp.data.tests);
       // console.log('retrieveProductsData --->resp.data.productQualityTestsData', resp.data.productQualityTestData);
 
