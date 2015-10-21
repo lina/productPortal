@@ -102,7 +102,7 @@ module.exports = {
           results.tests = data.rows;
           for (var i = 1 ; i < csvContent.length; i++) {
             var tempArr = [];
-            for (var key in csvContent[i]) {
+            for (var key in csvContent[i]) { 
               var arrContent = csvContent[i][key].split(',');
               for (var j = 0 ; j < arrContent.length; j++) {
                 if(arrContent[j] === '') {
