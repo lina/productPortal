@@ -45,8 +45,6 @@ module.exports = {
           query.on('end', function() {
             done();
             console.log('---->*results', results);
-            console.log('---->*results asdfff', results.csvContentsRefactored['1'].tests[0]);
-
             return res.json(results);
           }); 
         });
@@ -117,10 +115,19 @@ module.exports = {
               }
             }
             results.csvContentsRefactored.push(tempArr);
-            var query = client.query("INSERT INTO products.product(name, manufacturer, state) values($1, $2, $3)", [tempArr[0], tempArr[1], false]);
-            for (var k = 1 ; k <= results.tests.length; k++) {
-              var query = client.query("INSERT INTO products.product_test(datetime, product_id, test_id) values($1, $2, $3, $4)", [new Date().toISOString(), i, k]);
-            }
+            var query = client.query("INSERT INTO products.product(name, manufacturer, state) values($1, $2, $3) returning id", [tempArr[0], tempArr[1], false]);
+            
+            query.on('row', function(row) {
+              console.log('--------------->*********', row);
+
+              for (var k = 1 ; k <= results.tests.length; k++) {
+                var query = client.query("INSERT INTO products.product_test(datetime, product_id, test_id) values($1, $2, $3)", [new Date().toISOString(), row.id, k]);
+              }
+            })
+
+            // for (var k = 1 ; k <= results.tests.length; k++) {
+            //   var query = client.query("INSERT INTO products.product_test(datetime, product_id, test_id) values($1, $2, $3)", [new Date().toISOString(), i, k]);
+            // }
           }
         })
         query.on('end', function() {

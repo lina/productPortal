@@ -1,14 +1,5 @@
 <div ng-controller="productsCtrl" ng-app="productPortalApp.products">
   <div class='products_page_container'>
-    <!-- <input type="file" ng-model="csv.file"></input> -->
-    <!-- <div> -->
-      <!-- <p>Add Test:</p> -->
-      <!-- <span class='products_page_addTest_labels'>Test Name</span><input> -->
-      <!-- <span class='products_page_addTest_labels'>Description</span><input> -->
-      <!-- <md-button class='md-raised' ng-click="addTest()">Add Test</md-button> -->
-
-    <!-- </div> -->
-
     <div class="products_page_csv_submit">
       <ng-csv-import content="csv.content"
         header="csv.header" 
@@ -17,12 +8,14 @@
       <md-button class='md-raised' ng-click="uploadCsvFile()">Submit</md-button>  
     </div>
 
-
-    <md-button class='md-raised' ng-click="showProductTests()">Show Product Tests</md-button>  
+    <div class="products_page_show_tests_button_wrapper">
+      <md-button class='products_page_show_tests_button md-raised'>{{toggleTestViewText}} Product Tests</md-button>  
+    </div>
 
     <table class="table table-bordered table-hover products_page_table" id="products_page_table">
       <thead>
         <tr>
+          <td>Product ID</td>
           <td>Product Name</td>
           <td>Product Description</td>
           <td>State</td>
@@ -30,13 +23,14 @@
       </thead>
       <tbody class="products_page_table_product_row" ng-repeat="product in csvContentsRefactored">
         <tr class="active">
+          <td>{{product.id}}</td>
           <td>{{product.name}}</td>
           <td>{{product.manufacturer}}</td>
           <td><span ng-show="product.state">Verified</span><span ng-hide="product.state">Unverified</span></td>
         </tr>
-        <tr>
+        <tr class="products_page_table_product_tests_row">
           <td colspan="4">
-            <table class="products_page_table_product_tests table table-bordered table-hover table-condensed">
+            <table class="table table-bordered table-hover table-condensed">
               <thead>
                 <tr>
                   <td>Test Name</td>
@@ -88,29 +82,6 @@
           </td>
         </tr>
       </tbody>
-    </TABLE>
-    <!-- <md-button class='md-raised' ng-click="saveToDatabase()">Save</md-button>   -->
-
-
-
-<!--     </table>
-    <div class='todolist_title_wrapper'>
-      <div class="todolist_title_wrapper_inner">
-      Notely
-      </div>
-      <md-button class="md-raised todolist_show_tasks_button" ng-click="toggleItemView()">
-        {{toggleItemViewText}}
-      </md-button>
-    </div>
-    <div class="todolist_items_container">
-      <div class='todolist_tasks_wrapper' ng-repeat="todo in toDoTasks track by $index" ng-style="todo.ifShowTask">
-        <md-checkbox class="toolist_checkbox_click" ng-model="todo.ifChecked" aria-label="placeholder" md-no-ink ng-click="completedTask($index)">
-        </md-checkbox> 
-        <textarea rows='1' msd-elastic placeholder='Add your note'class='todolist_textarea_field' ng-model="todo.text" >
-        </textarea>
-      </div>
-    </div> -->
-
-    
+    </table>
   </div>
 </div>

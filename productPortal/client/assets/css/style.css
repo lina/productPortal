@@ -24,12 +24,20 @@ thead > tr {
   /*font-color:red;*/
 }
 
-.products_page_table_product_tests {
-  /*display:none;*/
+.products_page_table_product_tests_row {
+  display:none;
   width:100%;
+}
 
+table{ 
+  box-shadow: 1px 1px 1px #999;
 }
 
 #products_page_table_test_datetime {
   width:300px;
+}
+
+.products_page_show_tests_button_wrapper {
+  float:right;
+  margin-right:5%;
 }
