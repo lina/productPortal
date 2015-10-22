@@ -1,22 +1,19 @@
-// var gzippo = require('gzippo');
 var express = require('express');
 var router = express.Router();
-var cors = require('cors');
 var bodyParser = require('body-parser');
 var app = express();
 
-// app.use(gzippo.staticGzip("" + __dirname + "/client"));
 app.use(express.static(__dirname + '/../client'));
 
+// Get request to serve index.html on client side
 app.get('/client', function(req, res) {
   res.render('index.html');
 });
 
-// HTTP access control (CORS)
-app.use(cors());
 // Body-parsing middleware to populate req.body.
 app.use(bodyParser.json());
 
+// Initiates the routing specs
 app.use('/api', router);
 require('./products/productsRoutes')(router);
 

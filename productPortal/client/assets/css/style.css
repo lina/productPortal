@@ -1,6 +1,10 @@
-.products_page_csv_submit {
-  /*text-align:center;*/
-  margin: auto 0;
+body {
+  text-align:center;
+}
+
+.products_page_csv_submit div {
+  display:block;
+  text-align:left;
 }
 
 #products_page_table {
@@ -9,19 +13,9 @@
   margin-right:5%;
 }
 
-.products_page_table, tr, table{
-  /*border: 1px solid black;*/
-}
-
-
 .products_page_table > thead:first-child {
   font-weight:bold;
   font-size:1.5em;
-}
-
-thead > tr {
-  /*background-color: #cecece;*/
-  /*font-color:red;*/
 }
 
 .products_page_table_product_tests_row {
@@ -29,7 +23,7 @@ thead > tr {
   width:100%;
 }
 
-table{ 
+table { 
   box-shadow: 1px 1px 1px #999;
 }
 
